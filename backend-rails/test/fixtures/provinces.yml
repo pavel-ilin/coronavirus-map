@@ -1,0 +1,17 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  title: MyString
+  last_update: MyString
+  confirmed: 1
+  deatsh: 1
+  recoverede: 1
+  contry: one
+
+two:
+  title: MyString
+  last_update: MyString
+  confirmed: 1
+  deatsh: 1
+  recoverede: 1
+  contry: two
