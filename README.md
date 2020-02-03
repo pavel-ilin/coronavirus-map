@@ -1,1 +1,1 @@
-# corono-virus-map
+# coronavirus-map
