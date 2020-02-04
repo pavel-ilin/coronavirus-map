@@ -12,17 +12,15 @@ def api_secret_kaggel
   ENV["secret_kaggel"]
 end
 
-def url(path)
+def dataset(path)
   api_data = {username: "pashuntiy", key: api_secret_kaggel}
-  "https://#{api_data[:username]}:#{api_data[:key]}@www.kaggle.com/api/v1#{path}"
-end
+  url = "https://#{api_data[:username]}:#{api_data[:key]}@www.kaggle.com/api/v1#{path}"
 
-def dataset
-  tempfile = Down.open(url('/datasets/download/sudalairajkumar/novel-corona-virus-2019-dataset/2019_nCoV_data.csv'))
+  tempfile = Down.open(url)
   file = tempfile.read()
 end
 
-dataset()
+dataset('/datasets/download/sudalairajkumar/novel-corona-virus-2019-dataset/2019_nCoV_data.csv')
 
 
 # def update_database
