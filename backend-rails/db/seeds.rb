@@ -16,8 +16,8 @@ def dataset(path)
   api_data = {username: "pashuntiy", key: api_secret_kaggel}
   url = "https://#{api_data[:username]}:#{api_data[:key]}@www.kaggle.com/api/v1#{path}"
 
-  tempfile = Down.open(url)
-  file = tempfile.read()
+  tempfile = Down.open(url).read()
+  file = CSV.parse(tempfile)
 end
 
 dataset('/datasets/download/sudalairajkumar/novel-corona-virus-2019-dataset/2019_nCoV_data.csv')

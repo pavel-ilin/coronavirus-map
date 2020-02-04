@@ -14,7 +14,7 @@ class App extends Component {
 
     return (
       <div className="App">
-        {console.log(this.props.dataLoaded)}
+      
         <div>
           <Confirmed />
         </div>
