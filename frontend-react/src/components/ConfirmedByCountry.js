@@ -1,8 +1,11 @@
 import React from 'react';
 import '../App.css';
+import { useSelector } from 'react-redux'
 
 
 const ConfirmedByCountry = () => {
+
+  const testVariable = useSelector(state => state.dataLoaded);
 
   return (
     <div>
