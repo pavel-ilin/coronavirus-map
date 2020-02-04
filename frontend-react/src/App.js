@@ -6,30 +6,49 @@ import Confirmed from './containers/Confirmed'
 import Map from './containers/Map'
 import Deaths from './containers/Deaths'
 import Recovered from './containers/Recovered'
+import { loadData } from './actions'
 
 
 class App extends Component {
 
+  state = {
+    dataLoading: false
+  }
+
+  loadData = () => {
+    this.props.loadData()
+    this.setState({
+      dataLoading: true
+    })
+  }
+
   render() {
 
     return (
+
       <div className="App">
-      
-        <div>
-          <Confirmed />
-        </div>
+      {!this.state.dataLoading ? this.loadData() : null}
+        {
+          !this.props.dataLoaded ? <div>Data loading</div> :
 
-        <div>
-          <Map />
-        </div>
+      <div className="App">
+          <div>
+            <Confirmed />
+          </div>
 
-        <div>
-          <Deaths />
-        </div>
+          <div>
+            <Map />
+          </div>
 
-        <div>
-          <Recovered />
+          <div>
+            <Deaths />
+          </div>
+
+          <div>
+            <Recovered />
+          </div>
         </div>
+        }
 
       </div>
     )
@@ -38,8 +57,8 @@ class App extends Component {
 
 const mapStateToProps = state => {
   return {
-    dataLoaded: state.dataLoaded
+    dataLoaded: state.dataLoaded,
   }
 }
 
-export default connect(mapStateToProps) (App)
+export default connect(mapStateToProps, {loadData}) (App)

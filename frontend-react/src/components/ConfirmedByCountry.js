@@ -3,9 +3,10 @@ import '../App.css';
 import { useSelector } from 'react-redux'
 
 
+
 const ConfirmedByCountry = () => {
 
-  const testVariable = useSelector(state => state.dataLoaded);
+  // const data = useSelector(state => state.data);
 
   return (
     <div>
