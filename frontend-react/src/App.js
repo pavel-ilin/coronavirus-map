@@ -3,7 +3,7 @@ import './App.css';
 import { connect } from 'react-redux'
 
 import Confirmed from './containers/Confirmed'
-import Map from './containers/Map'
+import MapContainer from './containers/MapContainer'
 import Deaths from './containers/Deaths'
 import Recovered from './containers/Recovered'
 import { loadData } from './actions'
@@ -32,12 +32,13 @@ class App extends Component {
           !this.props.dataLoaded ? <div>Data loading</div> :
 
       <div className="App">
+
           <div>
             <Confirmed />
           </div>
 
           <div>
-            <Map />
+            <MapContainer />
           </div>
 
           <div>
@@ -47,6 +48,7 @@ class App extends Component {
           <div>
             <Recovered />
           </div>
+
         </div>
         }
 

@@ -2,20 +2,9 @@ import React from 'react';
 import '../App.css';
 import { useSelector } from 'react-redux'
 
-const totalConfirmed = (data) => {
-
-  let totalConfirmed = 0
-
-  for(let i = 0; i < data.length; i++){
-    for(let q = 0; q < data[i].provinces.length; q++){
-      totalConfirmed += data[i].provinces[q].confirmed
-    }
-  }
-  return totalConfirmed
-}
 
 const ConfirmedTotal = () => {
-  const data = useSelector(state => state.data);
+  const data = useSelector(state => state.totalComfirmed);
 
   return (
     <div>
@@ -25,7 +14,7 @@ const ConfirmedTotal = () => {
       </div>
 
       <div>
-        {totalConfirmed(data)}
+        {data}
       </div>
 
     </div>
