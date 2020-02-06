@@ -9,11 +9,11 @@ const DeathsTotal = () => {
   return (
     <div>
       <div>
-        <h3>Total Deaths</h3>
+        <h2>Total Deaths</h2>
       </div>
 
       <div>
-        {data}
+        <h2>{data}</h2>
       </div>
     </div>
   )

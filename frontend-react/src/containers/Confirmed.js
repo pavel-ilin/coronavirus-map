@@ -11,11 +11,11 @@ class Confirmed extends Component {
     return (
       <div>
 
-        <div>
+        <div className='container'>
           <ConfirmedTotal />
         </div>
 
-        <div>
+        <div className='container'>
           <ConfirmedByCountry />
         </div>
 

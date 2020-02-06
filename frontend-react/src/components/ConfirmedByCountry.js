@@ -15,7 +15,8 @@ const ConfirmedByCountry = () => {
 
   return (
     <div>
-      <div>{renderDom}</div>
+      <div><p><b>Affected countries</b></p></div>
+      <div><p>{renderDom}</p></div>
     </div>
   )
 }

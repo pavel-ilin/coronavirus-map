@@ -16,7 +16,8 @@ const RegionsByDeaths = () => {
 
   return (
     <div>
-      <div>{renderDom}</div>
+      <div><p><b>By country</b></p></div>
+      <div><p>{renderDom}</p></div>
     </div>
   )
 }

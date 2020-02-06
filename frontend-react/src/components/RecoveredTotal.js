@@ -8,13 +8,13 @@ const RecoveredTotal = () => {
 
   return (
     <div>
-    
+
       <div>
-        <h3>Total Recovered</h3>
+        <h2>Total Recovered</h2>
       </div>
 
       <div>
-        {data}
+        <h2>{data}</h2>
       </div>
 
     </div>

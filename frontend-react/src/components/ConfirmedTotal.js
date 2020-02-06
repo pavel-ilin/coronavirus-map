@@ -10,11 +10,11 @@ const ConfirmedTotal = () => {
     <div>
 
       <div>
-        <h3>Total Confirmed</h3>
+        <h2>Total Confirmed</h2>
       </div>
 
       <div>
-        {data}
+        <h2>{data}</h2>
       </div>
 
     </div>

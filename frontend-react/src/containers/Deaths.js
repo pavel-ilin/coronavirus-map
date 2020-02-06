@@ -10,14 +10,14 @@ class Deaths extends Component {
     return (
       <div>
 
-        <div>
+        <div className='container'>
           <DeathsTotal />
         </div>
 
-        <div>
+        <div className='container'>
           <RegionsByDeaths />
         </div>
-        
+
       </div>
     )
   }

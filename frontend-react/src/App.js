@@ -3,10 +3,11 @@ import './App.css';
 import { connect } from 'react-redux'
 
 import Confirmed from './containers/Confirmed'
-import MapContainer from './containers/MapContainer'
 import Deaths from './containers/Deaths'
 import Recovered from './containers/Recovered'
 import { loadData } from './actions'
+import MapContainer from './containers/MapContainer'
+// import GoogleMapComponent from './components/GoogleMapComponent'
 
 
 class App extends Component {
@@ -33,19 +34,19 @@ class App extends Component {
 
       <div className="App">
 
-          <div>
+          <div className='container'>
             <Confirmed />
           </div>
 
-          <div>
+          <div className='container'>
             <MapContainer />
           </div>
 
-          <div>
+          <div className='container'>
             <Deaths />
           </div>
 
-          <div>
+          <div className='container'>
             <Recovered />
           </div>
 

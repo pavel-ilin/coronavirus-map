@@ -1,14 +1,16 @@
 import React, { Component } from 'react';
-import { Map, GoogleApiWrapper, Marker, InfoWindow } from 'google-maps-react';
-import { useSelector } from 'react-redux'
+import { Map, GoogleApiWrapper, Marker, InfoWindow, Circle } from 'google-maps-react';
+
+import { connect } from 'react-redux'
 import '../App.css';
 
 const mapStyles = {
   width: '49%',
-  height: '80%',
+  height: '90%',
   position: 'relative',
-  float: 'left'
+  float: 'left',
 };
+
 
 class MapContainer extends Component {
 
@@ -17,6 +19,7 @@ class MapContainer extends Component {
     selectedPlace: {},
     showingInfoWindow: false,
   }
+
 
   onMarkerClick = (props, marker, e) => {
       this.setState({
@@ -35,26 +38,62 @@ class MapContainer extends Component {
       }
     }
 
+    renderFluShotsLocations () {
+      return this.props.countries.map((country) => {
+        return country.provinces.map((province) => {
+          return <Marker
+            position={{lat: parseFloat(province.latitude), lng: parseFloat(province.longitude)}}
+            onClick={this.onMarkerClick}
+            location={province.title}
+            confirmed={province.confirmed}
+            deaths={province.deaths}
+            recovered={province.recovered}
+          />
+        })
+      })
+    }
+
 
   render() {
     return (
       <div className='map'>
-          <Map
-            google={this.props.google}
-            style={mapStyles}
-            className={'map'}
-            zoom={14}
-            onClick={this.onMapClicked}
-            initialCenter={{
-                lat: 100,
-                lng: 122
-            }}>
-          </Map>
+      <Map
+        google={this.props.google}
+        style={mapStyles}
+        className={'map'}
+        zoom={6}
+        onClick={this.onMapClicked}
+        initialCenter={{
+            lat: 40.239195,
+            lng: 116.492984
+        }}>
+
+          {this.renderFluShotsLocations()}
+
+        <InfoWindow
+          marker={this.state.activeMarker}
+          visible={this.state.showingInfoWindow}>
+            <div>
+              <h2>{this.state.activeMarker.title}</h2>
+                <p>Location: {this.state.activeMarker.location}</p>
+                <p>Confirmed: {this.state.activeMarker.confirmed}</p>
+                <p>Deaths: {this.state.activeMarker.deaths}</p>
+                <p>Recovered: {this.state.activeMarker.recovered}</p>
+            </div>
+        </InfoWindow>
+      </Map>
       </div>
     )
   }
 }
+
+
+const mapStateToProps = state => {
+  return {
+    countries: state.countries,
+  }
+}
+
 const API_KEY = process.env.REACT_APP_GOOGLE_MAPS_KEY
 const WrappedContainer = GoogleApiWrapper({apiKey: API_KEY})(MapContainer);
-
-export default WrappedContainer;
+export default connect(mapStateToProps) (WrappedContainer)

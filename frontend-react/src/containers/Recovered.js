@@ -11,14 +11,14 @@ class Recovered extends Component {
     return (
       <div>
 
-        <div>
+        <div className='container'>
           <RecoveredTotal />
         </div>
 
-        <div>
+        <div className='container'>
           <RegionsByRecovered />
         </div>
-        
+
       </div>
     )
   }
