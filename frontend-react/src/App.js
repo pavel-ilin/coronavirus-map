@@ -6,7 +6,7 @@ import Confirmed from './containers/Confirmed'
 import Deaths from './containers/Deaths'
 import Recovered from './containers/Recovered'
 import { loadData } from './actions'
-// import MapContainer from './containers/MapContainer'
+import MapContainer from './containers/MapContainer'
 import GoogleMapComponent from './components/GoogleMapComponent'
 
 
@@ -39,7 +39,7 @@ class App extends Component {
           </div>
 
           <div className='container'>
-            <GoogleMapComponent />
+            <MapContainer />
           </div>
 
           <div className='container'>

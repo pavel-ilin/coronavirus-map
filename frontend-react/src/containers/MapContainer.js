@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Map, GoogleApiWrapper, Marker, InfoWindow, HeatMap } from 'google-maps-react';
+import { Map, GoogleApiWrapper, Marker, InfoWindow, HeatMap, Circle } from 'google-maps-react';
 
 import { connect } from 'react-redux'
 import '../App.css';
@@ -11,6 +11,9 @@ const mapStyles = {
   float: 'left',
 };
 
+const coords = { lat: -21.805149, lng: -49.0921657 };
+
+
 class MapContainer extends Component {
 
   state = {
@@ -18,6 +21,7 @@ class MapContainer extends Component {
     selectedPlace: {},
     showingInfoWindow: false,
   }
+
 
 
   onMarkerClick = (props, marker, e) => {
@@ -48,6 +52,7 @@ class MapContainer extends Component {
             deaths={province.deaths}
             recovered={province.recovered}
           />
+
         })
       })
     }
