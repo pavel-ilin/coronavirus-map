@@ -6,7 +6,7 @@ import '../App.css';
 
 const mapStyles = {
   width: '49%',
-  height: '90%',
+  height: '85%',
   position: 'relative',
   float: 'left',
 };
@@ -57,13 +57,16 @@ class MapContainer extends Component {
       })
     }
 
+    lastUpdate () {
+      let date = this.props.countries[0].provinces[0].last_update.slice(0, 10)
+      return date
+    }
+
 
   render() {
-    const coords = { lat: -21.805149, lng: -49.0921657 };
-
     return (
       <div className='map'>
-        <div>Data updated: </div>
+        <div><p>Last updated: {this.lastUpdate()}</p></div>
       <Map
         google={this.props.google}
         style={mapStyles}
@@ -71,8 +74,8 @@ class MapContainer extends Component {
         zoom={6}
         onClick={this.onMapClicked}
         initialCenter={{
-            lat: 40.239195,
-            lng: 116.492984
+            lat: 31.295391,
+            lng: 112.163214
         }}>
 
           {this.renderMarks()}

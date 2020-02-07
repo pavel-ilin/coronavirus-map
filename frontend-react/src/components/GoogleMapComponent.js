@@ -1,6 +1,6 @@
 import React, { Fragment } from 'react';
 import { useSelector, useDispatch } from 'react-redux'
-import { withScriptjs, withGoogleMap, GoogleMap, Marker, Circle, InfoWindow, InfoBox } from "react-google-maps"
+import { withScriptjs, withGoogleMap, GoogleMap, Marker, Circle, InfoWindow } from "react-google-maps"
 import { infoWindowClick } from '../actions'
 
 function Map() {
