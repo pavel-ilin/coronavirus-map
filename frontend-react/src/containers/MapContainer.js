@@ -63,6 +63,7 @@ class MapContainer extends Component {
 
     return (
       <div className='map'>
+        <div>Data updated: </div>
       <Map
         google={this.props.google}
         style={mapStyles}
