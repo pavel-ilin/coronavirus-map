@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Map, GoogleApiWrapper, Marker, InfoWindow, Circle } from 'google-maps-react';
+import { Map, GoogleApiWrapper, Marker, InfoWindow, HeatMap } from 'google-maps-react';
 
 import { connect } from 'react-redux'
 import '../App.css';
@@ -10,7 +10,6 @@ const mapStyles = {
   position: 'relative',
   float: 'left',
 };
-
 
 class MapContainer extends Component {
 
@@ -38,7 +37,7 @@ class MapContainer extends Component {
       }
     }
 
-    renderFluShotsLocations () {
+    renderMarks () {
       return this.props.countries.map((country) => {
         return country.provinces.map((province) => {
           return <Marker
@@ -55,6 +54,8 @@ class MapContainer extends Component {
 
 
   render() {
+    const coords = { lat: -21.805149, lng: -49.0921657 };
+
     return (
       <div className='map'>
       <Map
@@ -68,7 +69,7 @@ class MapContainer extends Component {
             lng: 116.492984
         }}>
 
-          {this.renderFluShotsLocations()}
+          {this.renderMarks()}
 
         <InfoWindow
           marker={this.state.activeMarker}

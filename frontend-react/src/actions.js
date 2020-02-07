@@ -23,3 +23,18 @@ export function loadData () {
     })
     })
 }
+
+
+export function infoWindowClick (data) {
+  return {
+    type: "INFO_WINDOW_CLICK",
+    activeInfoWindow: true
+  }
+}
+
+const actions = {
+  loadData,
+  infoWindowClick
+}
+
+export default actions

@@ -7,6 +7,7 @@ const initialState = {
   countryByConfirmed: [],
   countryByDeaths: [],
   countryByRecovered: [],
+  activeInfoWindow: false,
   dataLoaded: false
 }
 
@@ -23,6 +24,11 @@ const reducer = (oldState = initialState, action) => {
         countryByDeaths: action.countryByDeaths,
         countryByRecovered: action.countryByRecovered,
         dataLoaded: action.dataLoaded
+      }
+      case 'INFO_WINDOW_CLICK':
+      return {
+        ...oldState,
+        activeInfoWindow: action.activeInfoWindow
       }
     default:
       return oldState
