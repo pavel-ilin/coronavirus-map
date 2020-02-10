@@ -53,11 +53,14 @@ p {
   margin-top: 5px;
   margin-left: 7px;
   width: 720px;
-  height: 120px;
+  height: 750px;
 }
 
 .container {
+  flex-direction: row | row-reverse | column | column-reverse;
   margin-top: 5px;
   border: 1px solid #000;
   border-radius: 10px;
+  text-align: center;
 }
+

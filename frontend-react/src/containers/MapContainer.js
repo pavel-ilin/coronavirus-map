@@ -5,11 +5,19 @@ import { connect } from 'react-redux'
 import '../App.css';
 
 const mapStyles = {
-  width: '49%',
-  height: '85%',
+  width: '700px',
+  height: '100%',
   position: 'relative',
-  float: 'left',
+  float: 'left'
 };
+
+
+const containerStyles = {
+  width: '100%',
+  height: '100%',
+  position: 'relative',
+};
+
 
 const coords = { lat: -21.805149, lng: -49.0921657 };
 
@@ -70,6 +78,7 @@ class MapContainer extends Component {
       <Map
         google={this.props.google}
         style={mapStyles}
+        containerStyle={containerStyles}
         className={'map'}
         zoom={4}
         onClick={this.onMapClicked}

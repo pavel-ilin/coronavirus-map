@@ -44,8 +44,8 @@ end
 
 private
 
-Province.destroy_all
-Country.destroy_all
+# Province.destroy_all
+# Country.destroy_all
 
 def initial_database_seed
 
