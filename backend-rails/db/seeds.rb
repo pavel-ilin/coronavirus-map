@@ -39,26 +39,38 @@ def sorting_method
     end
   }
   sorted_data = cleaned_data.sort_by{ |a|  a[4]}
-  sorted_data.reverse + raw_data
+  all_data = sorted_data.reverse + raw_data.compact
 end
 
 private
 
-# Province.destroy_all
-# Country.destroy_all
+Province.destroy_all
+Country.destroy_all
 
 def initial_database_seed
+
     sorting_method().each { |n|
+
+      if n[2] == nil
+        n[2] = n[3]
+      end
+
+      if n[2] == 'Cruise Ship' || n[2] == 'Diamond Princess cruise ship'
+        n[3] = n[2]
+      end
+
       if n[3] == 'Mainland China'
         n[3] = 'China'
       end
 
-      if n[3] == 'Country' || n[5] == '0.0'
+      if n[3] == 'Country' || n[5] == '0.0' || n[3] == 'Cruise Ship'
         nil
+
       else
+
         country = Country.find_by(title: n[3])
             if country
-                if !n[2]
+                if n[2] == nil
                   province = country.provinces.find_by(title: n[3])
                 else
                   province = country.provinces.find_by(title: n[2])
@@ -66,8 +78,12 @@ def initial_database_seed
 
                 if province
                   nil
+
+                elsif n[2] == 'Cruise Ship' || n[2] == 'Diamond Princess cruise ship'
+                  country.provinces.create(title: n[2], last_update: n[4], confirmed: n[5], deaths: n[6], recovered: n[7], latitude: 35.456817, longitude: 139.679733)
+
                 else
-                  if !n[2]
+                  if n[2] == nil
                     n[2] = n[3]
                     response = open("https://maps.googleapis.com/maps/api/geocode/json?address=#{n[3]}&key=#{api_secret_google}").read
                   else
@@ -83,22 +99,26 @@ def initial_database_seed
             else
                 country = Country.create(title: n[3])
 
-                if !n[2]
+                if n[2] == nil
                   province = country.provinces.find_by(title: n[3])
                 else
                   province = country.provinces.find_by(title: n[2])
                 end
 
+
                 if province
                   nil
+
+                elsif n[2] == 'Cruise Ship' || n[2] == 'Diamond Princess cruise ship'
+                  country.provinces.create(title: n[2], last_update: n[4], confirmed: n[5], deaths: n[6], recovered: n[7], latitude: 35.456817, longitude: 139.679733)
+
                 else
-                  if !n[2]
+                  if n[2] == nil
                     n[2] = n[3]
                     response = open("https://maps.googleapis.com/maps/api/geocode/json?address=#{n[3]}&key=#{api_secret_google}").read
                   else
                     response = open("https://maps.googleapis.com/maps/api/geocode/json?address=#{n[3]}+#{n[2]}&key=#{api_secret_google}").read
                   end
-
                   parsed_response = JSON.parse(response)
                   lat = parsed_response['results'][0]['geometry']['location']['lat']
                   lng = parsed_response['results'][0]['geometry']['location']['lng']
