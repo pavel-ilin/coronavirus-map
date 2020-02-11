@@ -44,8 +44,8 @@ end
 
 private
 
-# Province.destroy_all
-# Country.destroy_all
+Province.destroy_all
+Country.destroy_all
 
 def initial_database_seed
 
@@ -80,8 +80,12 @@ def initial_database_seed
                   nil
 
                 elsif n[2] == 'Cruise Ship' || n[2] == 'Diamond Princess cruise ship'
-                  country.provinces.create(title: n[2], last_update: n[4], confirmed: n[5], deaths: n[6], recovered: n[7], latitude: 35.456817, longitude: 139.679733)
-
+                  province = country.provinces.find_by(title: n[3])
+                  if province
+                    nil
+                  else
+                    country.provinces.create(title: n[2], last_update: n[4], confirmed: n[5], deaths: n[6], recovered: n[7], latitude: 35.456817, longitude: 139.679733)
+                  end
                 else
                   if n[2] == nil
                     n[2] = n[3]
@@ -110,8 +114,12 @@ def initial_database_seed
                   nil
 
                 elsif n[2] == 'Cruise Ship' || n[2] == 'Diamond Princess cruise ship'
-                  country.provinces.create(title: n[2], last_update: n[4], confirmed: n[5], deaths: n[6], recovered: n[7], latitude: 35.456817, longitude: 139.679733)
-
+                  province = country.provinces.find_by(title: n[3])
+                  if province
+                    nil
+                  else
+                    country.provinces.create(title: n[2], last_update: n[4], confirmed: n[5], deaths: n[6], recovered: n[7], latitude: 35.456817, longitude: 139.679733)
+                  end
                 else
                   if n[2] == nil
                     n[2] = n[3]
