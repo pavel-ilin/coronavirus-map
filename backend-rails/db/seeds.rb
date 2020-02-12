@@ -28,24 +28,14 @@ def sorting_method
   raw_data = dataset_downloading('/datasets/download/sudalairajkumar/novel-corona-virus-2019-dataset/2019_nCoV_data.csv')
   raw_data.pop
 
-  cleaned_data = []
-
-  raw_data.select{ |a| a[4].length > 15 }.each{ |i|
-    if i[4].include?('/')
-      nil
-    else
-      i[4] = i[4].to_datetime
-      cleaned_data.push(i)
-    end
-  }
-  sorted_data = cleaned_data.sort_by{ |a|  a[4]}
-  all_data = sorted_data.reverse + raw_data.compact
+  sorted_data = raw_data.sort_by{ |a|  a[1]}
+  sorted_data.reverse
 end
 
 private
 
-Province.destroy_all
-Country.destroy_all
+# Province.destroy_all
+# Country.destroy_all
 
 def initial_database_seed
 
