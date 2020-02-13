@@ -66,8 +66,10 @@ class MapContainer extends Component {
     }
 
     lastUpdate () {
-      let date = this.props.countries[0].provinces[0].last_update.slice(0, 10)
-      return date
+
+      // let date = this.props.countries[0].provinces[0].last_update.slice(0, 10)
+      let today = new Date().toISOString().slice(0, 10)
+      return today
     }
 
 
