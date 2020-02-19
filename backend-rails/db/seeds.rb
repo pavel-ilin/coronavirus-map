@@ -20,7 +20,6 @@ def dataset_downloading(path)
 
   tempfile = Down.open(url).read()
   file = CSV.parse(tempfile)
-  reversed = file
 end
 
 
@@ -80,10 +79,34 @@ def update_database
       puts('not in database: ' + n[3])
 
       country = Country.create(title: n[3])
+
       if n[2] == nil
           province = country.provinces.find_by(title: n[3])
       else
           province = country.provinces.find_by(title: n[2])
+      end
+
+      if province
+          nil
+      elsif n[2] == 'Cruise Ship' || n[2] == 'Diamond Princess cruise ship'
+        province = country.provinces.find_by(title: n[3])
+        if province
+              nil
+        else
+          country.provinces.create(title: n[2], last_update: n[4], confirmed: n[5], deaths: n[6], recovered: n[7], latitude: 35.456817, longitude: 139.679733)
+        end
+      else
+        if n[2] == nil
+            n[2] = n[3]
+         response = open("https://maps.googleapis.com/maps/api/geocode/json?address=#{n[3]}&key=#{api_secret_google}").read
+        else
+         response = open("https://maps.googleapis.com/maps/api/geocode/json?address=#{n[3]}+#{n[2]}&key=#{api_secret_google}").read
+        end
+          parsed_response = JSON.parse(response)
+          lat = parsed_response['results'][0]['geometry']['location']['lat']
+          lng = parsed_response['results'][0]['geometry']['location']['lng']
+          puts('province created 2')
+        country.provinces.create(title: n[2], last_update: n[4], confirmed: n[5], deaths: n[6], recovered: n[7], latitude: lat, longitude: lng)
       end
     end
   }
