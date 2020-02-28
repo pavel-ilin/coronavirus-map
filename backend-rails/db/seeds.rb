@@ -24,7 +24,7 @@ end
 
 
 def sorting_method
-  raw_data = dataset_downloading('/datasets/download/sudalairajkumar/novel-corona-virus-2019-dataset/2019_nCoV_data.csv')
+  raw_data = dataset_downloading('/datasets/download/sudalairajkumar/novel-corona-virus-2019-dataset/covid_19_data.csv')
   raw_data.pop
 
   # sorted_data = raw_data.sort_by{ |a|  a[1]}.reverse
@@ -34,6 +34,8 @@ end
 private
 
 def update_database
+  Province.destroy_all
+  Country.destroy_all
 
   sliced_array = sorting_method.reverse.slice(0, 100)
   sliced_array.shift
@@ -48,28 +50,40 @@ def update_database
           n[3] = n[2]
     end
 
-    if n[2] == nil
-          n[2] = n[3]
+    if n[2] == nil || n[2] == 'None'
+        n[2] = n[3]
+    end
+
+    if n[2].include? 'From Diamond Princess'
+      n[2] = n[2].chomp('(From Diamond Princess)')
+    end
+
+    if n[2].include? 'Unassigned Location'
+      n[2] == n[3]
     end
 
     country = Country.find_by(title: n[3])
     if country
+
       province = country.provinces.find_by(title: n[2])
       if province
 
-        province.update(last_update: n[4], confirmed: n[5], deaths: n[6], recovered: n[7])
+        province.update(last_update: n[1], confirmed: n[5], deaths: n[6], recovered: n[7])
 
-        puts(province['title'] + ' ' + province['last_update'])
+        # puts(province['title'] + ' ' + province['last_update'])
 
       else
-        if n[2] == nil
-          n[2] = n[3]
+
+        if n[2] == n[3]
+          response = open("https://maps.googleapis.com/maps/api/geocode/json?address=#{n[3]}&key=#{api_secret_google}").read
+        elsif n[2] == 'From Diamond Princess' || n[2] == 'Unassigned Location (From Diamond Princess)'
           response = open("https://maps.googleapis.com/maps/api/geocode/json?address=#{n[3]}&key=#{api_secret_google}").read
         else
           response = open("https://maps.googleapis.com/maps/api/geocode/json?address=#{n[3]}+#{n[2]}&key=#{api_secret_google}").read
         end
 
         parsed_response = JSON.parse(response)
+
         lat = parsed_response['results'][0]['geometry']['location']['lat']
         lng = parsed_response['results'][0]['geometry']['location']['lng']
         puts('province created')
@@ -80,7 +94,7 @@ def update_database
 
       country = Country.create(title: n[3])
 
-      if n[2] == nil
+      if n[2] == nil || n[2] == 'None'
           province = country.provinces.find_by(title: n[3])
       else
           province = country.provinces.find_by(title: n[2])
@@ -96,8 +110,9 @@ def update_database
           country.provinces.create(title: n[2], last_update: n[4], confirmed: n[5], deaths: n[6], recovered: n[7], latitude: 35.456817, longitude: 139.679733)
         end
       else
-        if n[2] == nil
-            n[2] = n[3]
+        if n[2] == n[3]
+         response = open("https://maps.googleapis.com/maps/api/geocode/json?address=#{n[3]}&key=#{api_secret_google}").read
+       elsif n[2] == 'From Diamond Princess' || n[2] == 'Unassigned Location (From Diamond Princess)'
          response = open("https://maps.googleapis.com/maps/api/geocode/json?address=#{n[3]}&key=#{api_secret_google}").read
         else
          response = open("https://maps.googleapis.com/maps/api/geocode/json?address=#{n[3]}+#{n[2]}&key=#{api_secret_google}").read
