@@ -53,14 +53,15 @@ def update_database
     if n[2] == nil || n[2] == 'None'
         n[2] = n[3]
     end
-
-    if n[2].include? 'From Diamond Princess'
-      n[2] = n[2].chomp('(From Diamond Princess)')
-    end
+    #
+    # if n[2].include? 'From Diamond Princess'
+    #   n[2] = n[2].chomp('(From Diamond Princess)')
+    # end
 
     if n[2].include? 'Unassigned Location'
       n[2] == n[3]
     end
+
 
     if n[5] == '0.0'
       nil
@@ -80,7 +81,8 @@ def update_database
 
           if n[2] == n[3]
             response = open("https://maps.googleapis.com/maps/api/geocode/json?address=#{n[3]}&key=#{api_secret_google}").read
-          elsif n[2] == 'From Diamond Princess' || n[2] == 'Unassigned Location (From Diamond Princess)'
+          elsif n[2].include? 'From Diamond Princess'
+            n[2] = n[2].chomp('(From Diamond Princess)')
             response = open("https://maps.googleapis.com/maps/api/geocode/json?address=#{n[3]}&key=#{api_secret_google}").read
           else
             response = open("https://maps.googleapis.com/maps/api/geocode/json?address=#{n[2]}+#{n[3]}&key=#{api_secret_google}").read
@@ -90,7 +92,6 @@ def update_database
 
           lat = parsed_response['results'][0]['geometry']['location']['lat']
           lng = parsed_response['results'][0]['geometry']['location']['lng']
-          puts('province created')
           country.provinces.create(title: n[2], last_update: n[4], confirmed: n[5], deaths: n[6], recovered: n[7], latitude: lat, longitude: lng)
         end
       else
@@ -112,7 +113,8 @@ def update_database
         else
           if n[2] == n[3]
            response = open("https://maps.googleapis.com/maps/api/geocode/json?address=#{n[3]}&key=#{api_secret_google}").read
-         elsif n[2] == 'From Diamond Princess' || n[2] == 'Unassigned Location (From Diamond Princess)'
+         elsif n[2].include? 'From Diamond Princess'
+           n[2] = n[2].chomp('(From Diamond Princess)')
            response = open("https://maps.googleapis.com/maps/api/geocode/json?address=#{n[3]}&key=#{api_secret_google}").read
          else
            response = open("https://maps.googleapis.com/maps/api/geocode/json?address=#{n[2]}+#{n[3]}&key=#{api_secret_google}").read
@@ -120,7 +122,6 @@ def update_database
             parsed_response = JSON.parse(response)
             lat = parsed_response['results'][0]['geometry']['location']['lat']
             lng = parsed_response['results'][0]['geometry']['location']['lng']
-            puts('province created 2')
           country.provinces.create(title: n[2], last_update: n[4], confirmed: n[5], deaths: n[6], recovered: n[7], latitude: lat, longitude: lng)
         end
       end
