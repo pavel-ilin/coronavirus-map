@@ -34,8 +34,8 @@ end
 private
 
 def update_database
-  Province.destroy_all
-  Country.destroy_all
+  # Province.destroy_all
+  # Country.destroy_all
 
   sliced_array = sorting_method.reverse.slice(0, 100)
   sliced_array.shift
@@ -62,68 +62,71 @@ def update_database
       n[2] == n[3]
     end
 
-    country = Country.find_by(title: n[3])
-    if country
-
-      province = country.provinces.find_by(title: n[2])
-      if province
-
-        province.update(last_update: n[1], confirmed: n[5], deaths: n[6], recovered: n[7])
-
-        # puts(province['title'] + ' ' + province['last_update'])
-
-      else
-
-        if n[2] == n[3]
-          response = open("https://maps.googleapis.com/maps/api/geocode/json?address=#{n[3]}&key=#{api_secret_google}").read
-        elsif n[2] == 'From Diamond Princess' || n[2] == 'Unassigned Location (From Diamond Princess)'
-          response = open("https://maps.googleapis.com/maps/api/geocode/json?address=#{n[3]}&key=#{api_secret_google}").read
-        else
-          response = open("https://maps.googleapis.com/maps/api/geocode/json?address=#{n[3]}+#{n[2]}&key=#{api_secret_google}").read
-        end
-
-        parsed_response = JSON.parse(response)
-
-        lat = parsed_response['results'][0]['geometry']['location']['lat']
-        lng = parsed_response['results'][0]['geometry']['location']['lng']
-        puts('province created')
-        country.provinces.create(title: n[2], last_update: n[4], confirmed: n[5], deaths: n[6], recovered: n[7], latitude: lat, longitude: lng)
-      end
+    if n[5] == '0.0'
+      nil
     else
-      puts('not in database: ' + n[3])
+      country = Country.find_by(title: n[3])
+      if country
 
-      country = Country.create(title: n[3])
+        province = country.provinces.find_by(title: n[2])
 
-      if n[2] == nil || n[2] == 'None'
-          province = country.provinces.find_by(title: n[3])
-      else
-          province = country.provinces.find_by(title: n[2])
-      end
-
-      if province
-          nil
-      elsif n[2] == 'Cruise Ship' || n[2] == 'Diamond Princess cruise ship'
-        province = country.provinces.find_by(title: n[3])
         if province
-              nil
+
+          province.update(last_update: n[1], confirmed: n[5], deaths: n[6], recovered: n[7])
+
+          # puts(province['title'] + ' ' + province['last_update'])
+
         else
-          country.provinces.create(title: n[2], last_update: n[4], confirmed: n[5], deaths: n[6], recovered: n[7], latitude: 35.456817, longitude: 139.679733)
-        end
-      else
-        if n[2] == n[3]
-         response = open("https://maps.googleapis.com/maps/api/geocode/json?address=#{n[3]}&key=#{api_secret_google}").read
-       elsif n[2] == 'From Diamond Princess' || n[2] == 'Unassigned Location (From Diamond Princess)'
-         response = open("https://maps.googleapis.com/maps/api/geocode/json?address=#{n[3]}&key=#{api_secret_google}").read
-        else
-         response = open("https://maps.googleapis.com/maps/api/geocode/json?address=#{n[3]}+#{n[2]}&key=#{api_secret_google}").read
-        end
+
+          if n[2] == n[3]
+            response = open("https://maps.googleapis.com/maps/api/geocode/json?address=#{n[3]}&key=#{api_secret_google}").read
+          elsif n[2] == 'From Diamond Princess' || n[2] == 'Unassigned Location (From Diamond Princess)'
+            response = open("https://maps.googleapis.com/maps/api/geocode/json?address=#{n[3]}&key=#{api_secret_google}").read
+          else
+            response = open("https://maps.googleapis.com/maps/api/geocode/json?address=#{n[2]}+#{n[3]}&key=#{api_secret_google}").read
+          end
+
           parsed_response = JSON.parse(response)
+
           lat = parsed_response['results'][0]['geometry']['location']['lat']
           lng = parsed_response['results'][0]['geometry']['location']['lng']
-          puts('province created 2')
-        country.provinces.create(title: n[2], last_update: n[4], confirmed: n[5], deaths: n[6], recovered: n[7], latitude: lat, longitude: lng)
+          puts('province created')
+          country.provinces.create(title: n[2], last_update: n[4], confirmed: n[5], deaths: n[6], recovered: n[7], latitude: lat, longitude: lng)
+        end
+      else
+        puts('not in database: ' + n[3])
+
+        country = Country.create(title: n[3])
+
+        province = country.provinces.find_by(title: n[2])
+
+        if province
+            nil
+        elsif n[2] == 'Cruise Ship' || n[2] == 'Diamond Princess cruise ship'
+          province = country.provinces.find_by(title: n[3])
+          if province
+                nil
+          else
+            country.provinces.create(title: n[2], last_update: n[4], confirmed: n[5], deaths: n[6], recovered: n[7], latitude: 35.456817, longitude: 139.679733)
+          end
+        else
+          if n[2] == n[3]
+           response = open("https://maps.googleapis.com/maps/api/geocode/json?address=#{n[3]}&key=#{api_secret_google}").read
+         elsif n[2] == 'From Diamond Princess' || n[2] == 'Unassigned Location (From Diamond Princess)'
+           response = open("https://maps.googleapis.com/maps/api/geocode/json?address=#{n[3]}&key=#{api_secret_google}").read
+         else
+           response = open("https://maps.googleapis.com/maps/api/geocode/json?address=#{n[2]}+#{n[3]}&key=#{api_secret_google}").read
+          end
+            parsed_response = JSON.parse(response)
+            lat = parsed_response['results'][0]['geometry']['location']['lat']
+            lng = parsed_response['results'][0]['geometry']['location']['lng']
+            puts('province created 2')
+          country.provinces.create(title: n[2], last_update: n[4], confirmed: n[5], deaths: n[6], recovered: n[7], latitude: lat, longitude: lng)
+        end
       end
     end
+
+
   }
 end
 
