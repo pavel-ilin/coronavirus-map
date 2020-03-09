@@ -7,6 +7,7 @@ import Deaths from './containers/Deaths'
 import Recovered from './containers/Recovered'
 import { loadData } from './actions'
 import MapContainer from './containers/MapContainer'
+import Diagram from './containers/Diagram'
 import GoogleMapComponent from './components/GoogleMapComponent'
 
 
@@ -40,6 +41,9 @@ class App extends Component {
 
           <div className='container'>
             <MapContainer />
+            <div className='container'>
+              <Diagram />
+            </div>
           </div>
 
           <div className='container'>
@@ -49,6 +53,7 @@ class App extends Component {
           <div className='container'>
             <Recovered />
           </div>
+
 
         </div>
         }

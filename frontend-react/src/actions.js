@@ -1,7 +1,7 @@
 import { filterData } from './services/helperFunctions'
-const herokuUrl = 'https://coronavorus-map.herokuapp.com/'
+const herokuUrl = 'https://coronavorus-map.herokuapp.com'
 const localhostUrl = 'http://localhost:3000'
-const urlInUse = localhostUrl
+const urlInUse = herokuUrl
 
 export function loadData () {
   return (dispatch) => fetch(urlInUse + '/countries')

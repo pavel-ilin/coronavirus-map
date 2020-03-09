@@ -1,12 +1,12 @@
 import React, { Component } from 'react';
-import { Map, GoogleApiWrapper, Marker, InfoWindow } from 'google-maps-react';
+import { Map, GoogleApiWrapper, Marker, InfoWindow, HeatMap, Circle } from 'google-maps-react';
 
 import { connect } from 'react-redux'
 import '../App.css';
 
 const mapStyles = {
   width: '700px',
-  height: '100%',
+  height: '95%',
   position: 'relative',
   float: 'left'
 };
@@ -66,8 +66,6 @@ class MapContainer extends Component {
     }
 
     lastUpdate () {
-
-      // let date = this.props.countries[0].provinces[0].last_update.slice(0, 10)
       let today = new Date().toISOString().slice(0, 10)
       return today
     }
