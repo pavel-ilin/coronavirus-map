@@ -27,7 +27,6 @@ def sorting_method
   raw_data = dataset_downloading('/datasets/download/sudalairajkumar/novel-corona-virus-2019-dataset/covid_19_data.csv')
   raw_data.pop
 
-  # sorted_data = raw_data.sort_by{ |a|  a[1]}.reverse
   sorted_data = raw_data.sort_by{ |a|  a[1]}
 end
 
@@ -37,7 +36,7 @@ def update_database
   # Province.destroy_all
   # Country.destroy_all
 
-  sliced_array = sorting_method.reverse.slice(0, 100)
+  sliced_array = sorting_method.reverse.slice(0, 300)
   sliced_array.shift
 
   sliced_array.each { |n|
@@ -53,10 +52,6 @@ def update_database
     if n[2] == nil || n[2] == 'None'
         n[2] = n[3]
     end
-    #
-    # if n[2].include? 'From Diamond Princess'
-    #   n[2] = n[2].chomp('(From Diamond Princess)')
-    # end
 
     if n[2].include? 'Unassigned Location'
       n[2] == n[3]
@@ -133,11 +128,12 @@ end
 
 update_database()
 
-# Province.destroy_all
-# Country.destroy_all
+
 
 # def initial_database_seed
-#
+#   Province.destroy_all
+#   Country.destroy_all
+
 #     sorting_method().each { |n|
 #
 #       if n[2] == nil
