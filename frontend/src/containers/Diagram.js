@@ -4,18 +4,18 @@ import * as d3 from "d3";
 import { useSelector } from 'react-redux'
 import geoData from "../countries.geo.json";
 
-const renderPie = pie => {
+const renderPie = (pie, titles) => {
   let arc = d3
     .arc()
     .innerRadius(0)
-    .outerRadius(300);
+    .outerRadius(300)
 
   let interpolate = d3.interpolateHslLong("red", "blue")
 
+
   return pie.map((slice, index) => {
     let sliceColor = interpolate(index / (pie.length - 1));
-
-    return <path d={arc(slice)} fill={sliceColor} />;
+    return <path d={arc(slice)} fill={sliceColor} text={titles[index]}></path>;
   });
 };
 
@@ -26,12 +26,15 @@ const Diagram = (props) => {
     let data = []
     let labels = []
     let singles = []
+    let titles = []
     countries.map(country => {
       if (country.confirmed  <= 100){
         singles.push(country.confirmed)
+        titles.push(country.country)
       }
       else{
         data.push(country.confirmed)
+        titles.push(country.country)
       }
     })
     let sum = singles.reduce(function(a, b){return a + b;}, 0);
@@ -39,15 +42,17 @@ const Diagram = (props) => {
 
     const height = 600;
     const width = 600;
+
     let pie = d3.pie()(data);
 
       return (
         <Fragment>
-        <svg height={height} width={width}>
-          <g transform={`translate(${width / 2},${height / 2})`}>
-            {renderPie(pie)}
-          </g>
-        </svg>
+        <h1>World Situation</h1>
+          <svg height={height} width={width}>
+            <g transform={`translate(${width / 2},${height / 2})`}>
+              {renderPie(pie, titles)}
+            </g>
+          </svg>
         </Fragment>
   )
 }
