@@ -15,18 +15,18 @@ const renderPie = (pie, titles) => {
 
   return pie.map((slice, index) => {
     let sliceColor = interpolate(index / (pie.length - 1));
-    return <path d={arc(slice)} fill={sliceColor} text={titles[index]}></path>;
+    return (<path d={arc(slice)} fill={sliceColor} text={titles[index]}></path>);
   });
 };
 
 
 const Diagram = (props) => {
-
     const countries = useSelector(state => state.countryByConfirmed)
     let data = []
     let labels = []
     let singles = []
     let titles = []
+
     countries.map(country => {
       if (country.confirmed  <= 100){
         singles.push(country.confirmed)
@@ -38,6 +38,7 @@ const Diagram = (props) => {
       }
     })
     let sum = singles.reduce(function(a, b){return a + b;}, 0);
+
     data.push(sum)
 
     const height = 600;
@@ -45,10 +46,21 @@ const Diagram = (props) => {
 
     let pie = d3.pie()(data);
 
+    // This is cool part
+    const svgRef = useRef()
+
+    useEffect(() => {
+          const svg = d3.select('g')
+            .append("svg:text")
+              .data(countries)
+              .attr("text-anchor", "middle")
+              .text(country => country.country)
+        })
+
       return (
         <Fragment>
         <h1>World Situation</h1>
-          <svg height={height} width={width}>
+          <svg ref={svgRef} height={height} width={width}>
             <g transform={`translate(${width / 2},${height / 2})`}>
               {renderPie(pie, titles)}
             </g>
