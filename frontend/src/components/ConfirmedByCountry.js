@@ -10,7 +10,9 @@ const ConfirmedByCountry = () => {
   const data = useSelector(state => state.countryByConfirmed)
 
   const renderDom = sortCountries(data).map((country) => {
-    return <div>{country.country}: {country.confirmed}</div>
+    if (country.confirmed > 0){
+      return <div>{country.country}: {country.confirmed}</div>
+    }
   })
 
   return (

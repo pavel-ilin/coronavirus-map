@@ -1,72 +1,18 @@
 import React, { Fragment, useRef, useEffect, useState } from 'react';
 // import { select, geoPath, geoMercator, min, max, scaleLinear } from "d3";
 import * as d3 from "d3";
-import { useSelector } from 'react-redux'
-import geoData from "../countries.geo.json";
+// import geoData from "../countries.geo.json";
 
-const renderPie = (pie, titles) => {
-  let arc = d3
-    .arc()
-    .innerRadius(0)
-    .outerRadius(300)
-
-  let interpolate = d3.interpolateHslLong("red", "blue")
+import PieComponent from '../components/PieComponent'
 
 
-  return pie.map((slice, index) => {
-    let sliceColor = interpolate(index / (pie.length - 1));
-    return (<path d={arc(slice)} fill={sliceColor} text={titles[index]}></path>);
-  });
-};
+const Diagram = () => {
 
-
-const Diagram = (props) => {
-    const countries = useSelector(state => state.countryByConfirmed)
-    let data = []
-    let labels = []
-    let singles = []
-    let titles = []
-
-    countries.map(country => {
-      if (country.confirmed  <= 100){
-        singles.push(country.confirmed)
-        titles.push(country.country)
-      }
-      else{
-        data.push(country.confirmed)
-        titles.push(country.country)
-      }
-    })
-    let sum = singles.reduce(function(a, b){return a + b;}, 0);
-
-    data.push(sum)
-
-    const height = 600;
-    const width = 600;
-
-    let pie = d3.pie()(data);
-
-    // This is cool part
-    const svgRef = useRef()
-
-    useEffect(() => {
-          const svg = d3.select('g')
-            .append("svg:text")
-              .data(countries)
-              .attr("text-anchor", "middle")
-              .text(country => country.country)
-        })
-
-      return (
-        <Fragment>
-        <h1>World Situation</h1>
-          <svg ref={svgRef} height={height} width={width}>
-            <g transform={`translate(${width / 2},${height / 2})`}>
-              {renderPie(pie, titles)}
-            </g>
-          </svg>
-        </Fragment>
-  )
+  return (
+    <svg width={600} height={600}>
+      <PieComponent />
+    </svg>
+  );
 }
 
 export default Diagram
@@ -74,6 +20,78 @@ export default Diagram
 
 
 
+
+
+
+
+// const renderPie = (pie, titles) => {
+//   let arc = d3
+//     .arc()
+//     .innerRadius(0)
+//     .outerRadius(300)
+//
+//   let interpolate = d3.interpolateHslLong("red", "blue")
+//
+//
+//   return pie.map((slice, index) => {
+//     let sliceColor = interpolate(index / (pie.length - 1));
+//     return (<path d={arc(slice)} fill={sliceColor} text={titles[index]}></path>);
+//   });
+// };
+//
+//
+// const Diagram = (props) => {
+//     const countries = useSelector(state => state.countryByConfirmed)
+//     let data = []
+//     let labels = []
+//     let singles = []
+//     let titles = []
+//
+//     countries.map(country => {
+//       if (country.confirmed  <= 100){
+//         singles.push(country.confirmed)
+//         titles.push(country.country)
+//       }
+//       else{
+//         data.push(country.confirmed)
+//         titles.push(country.country)
+//       }
+//     })
+//     let sum = singles.reduce(function(a, b){return a + b;}, 0);
+//
+//     data.push(sum)
+//
+//     const height = 600;
+//     const width = 600;
+//
+//     let pie = d3.pie()(data);
+//
+//     // This is cool part
+//     const svgRef = useRef()
+//
+//     useEffect(() => {
+//           const svg = d3.select('g')
+//             .append("svg:text")
+//               .data(countries)
+//               .attr("text-anchor", "middle")
+//               .text(country => country.country)
+//         }, countries)
+//
+//       return (
+//         <Fragment>
+//         <h1>World Situation</h1>
+//           <svg ref={svgRef} height={height} width={width}>
+//             <g transform={`translate(${width / 2},${height / 2})`}>
+//               {renderPie(pie, titles)}
+//             </g>
+//           </svg>
+//         </Fragment>
+//   )
+// }
+//
+// export default Diagram
+
+// World Map
 
 // const style = {
 //   width: '100%',

@@ -10,7 +10,10 @@ const RegionsByDeaths = () => {
   const data = useSelector(state => state.countryByDeaths)
 
   const renderDom = sortCountriesDeaths(data).map((country) => {
-    return <div>{country.country}: {country.deaths}</div>
+
+    if (country.deaths > 0){
+      return <div>{country.country}: {country.deaths}</div>
+     }
   })
 
 

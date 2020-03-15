@@ -10,7 +10,9 @@ const RegionsByRecovered = () => {
   const data = useSelector(state => state.countryByRecovered)
 
   const renderDom = sortCountriesRecovered(data).map((country) => {
-    return <div>{country.country}: {country.recovered}</div>
+    if (country.recovered > 0){
+      return <div>{country.country}: {country.recovered}</div>
+    }
   })
 
   return (
