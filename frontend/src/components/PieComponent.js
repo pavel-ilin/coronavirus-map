@@ -1,4 +1,4 @@
-import React, { Fragment } from 'react'
+import React, { Fragment, useState } from 'react'
 import * as d3 from 'd3'
 import { useSelector } from 'react-redux'
 import styled from 'styled-components'
@@ -11,19 +11,39 @@ const Path = styled.path`
 
 
 const Arc = ({ arcData }) => {
+
+  const [radius, setRaduis] = useState(300)
+
   const arc = d3
     .arc()
     .innerRadius(1)
-    .outerRadius(300)
+    .outerRadius(radius)
 
-const onClick = () => {
-  console.log('hello')
+const onHover = (event) => {
+  setRaduis(radius + 20)
+}
+
+const onLeave = () => {
+  setRaduis(radius - 20)
+}
+
+const onClick = (event) => {
+
+  
+ console.log(event.target.dataset.confirmed)
+ console.log(event.target.dataset.country)
 }
 
 
   return(
     <Fragment>
-    <Path d={arc(arcData)} colors={arcData.data.confirmed / 1000} onClick={onClick}/>
+    <Path
+      d={arc(arcData)}
+      colors={arcData.data.confirmed / 1000}
+      onMouseLeave={onLeave} onMouseEnter={onHover}
+      onClick={onClick}
+      data-country={arcData.data.country}
+      data-confirmed={arcData.data.confirmed}/>
     <text
       transform={`translate(${arc.centroid(arcData)})`}
       dy=".35em"
