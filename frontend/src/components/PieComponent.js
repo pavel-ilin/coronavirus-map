@@ -52,20 +52,11 @@ const Arc = ({ arcData }) => {
       setIsOpen(false)
     }
 
-    function midAngle(arcData) {
-      return arcData.startAngle + (arcData.endAngle - arcData.startAngle) / 2;
-  }
 
   function lablesOut(arcData){
-    var pos = arc.centroid(arcData);
-    pos[0] = radius * (midAngle(arcData) < Math.PI ? 1 : -1);
-    // pos[1] = radius * (midAngle(arcData) < Math.PI ? 1 : -1);
-    console.log(pos)
-    return pos
-  }
-
-
-
+    var midAngle = arcData.endAngle < Math.PI ? arcData.startAngle/2 + arcData.endAngle/2 : arcData.startAngle/2  + arcData.endAngle/2 + Math.PI;
+    return "translate(" + arc.centroid(arcData)[0] + "," + arc.centroid(arcData)[1] + ") rotate(-90) rotate(" + (midAngle * 180/Math.PI) + ")";
+    }
 
   return(
     <Fragment>
@@ -76,8 +67,8 @@ const Arc = ({ arcData }) => {
       onClick={onClick}
       />
     <text
-      transform={`translate(${arc.centroid(arcData)})`}
-      // transform={`translate(${lablesOut(arcData)})`}
+      // transform={`translate(${arc.centroid(arcData)})`}
+      transform={`${lablesOut(arcData)}`}
       dy=".35em"
       textAnchor='middle'
       fill="black"
@@ -102,7 +93,7 @@ const PieComponent = () => {
   const data = useSelector(state => state.countryByConfirmed)
 
   let others = {
-    country: 'Others',
+    country: 'Other countries',
     confirmed: 0
   }
 
