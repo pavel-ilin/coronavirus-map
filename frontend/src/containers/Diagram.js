@@ -9,7 +9,7 @@ import PieComponent from '../components/PieComponent'
 const Diagram = () => {
 
   return (
-    <svg width={600} height={600}>
+    <svg width={800} height={800}>
       <PieComponent />
     </svg>
   );

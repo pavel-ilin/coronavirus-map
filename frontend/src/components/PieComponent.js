@@ -24,7 +24,7 @@ const Path = styled.path`
 
 const Arc = ({ arcData }) => {
 
-  const [radius, setRaduis] = useState(300)
+  const [radius, setRaduis] = useState(350)
 
   const [modalIsOpen,setIsOpen] = useState(false);
 
@@ -32,6 +32,9 @@ const Arc = ({ arcData }) => {
     .arc()
     .innerRadius(1)
     .outerRadius(radius)
+    .padAngle(.04)
+    .padRadius(100)
+    .cornerRadius(2);
 
     const onHover = (event) => {
       setRaduis(radius + 30)
@@ -42,18 +45,27 @@ const Arc = ({ arcData }) => {
     }
 
     const onClick = (event) => {
-
       setIsOpen(true)
-
-      console.log(setIsOpen)
-
-      console.log(event.target.dataset.confirmed)
-      console.log(event.target.dataset.country)
     }
 
     function closeModal(){
       setIsOpen(false)
     }
+
+    function midAngle(arcData) {
+      return arcData.startAngle + (arcData.endAngle - arcData.startAngle) / 2;
+  }
+
+  function lablesOut(arcData){
+    var pos = arc.centroid(arcData);
+    pos[0] = radius * (midAngle(arcData) < Math.PI ? 1 : -1);
+    // pos[1] = radius * (midAngle(arcData) < Math.PI ? 1 : -1);
+    console.log(pos)
+    return pos
+  }
+
+
+
 
   return(
     <Fragment>
@@ -62,12 +74,12 @@ const Arc = ({ arcData }) => {
       colors={arcData.data.confirmed / 1000}
       onMouseLeave={onLeave} onMouseEnter={onHover}
       onClick={onClick}
-      data-country={arcData.data.country}
-      data-confirmed={arcData.data.confirmed}/>
+      />
     <text
       transform={`translate(${arc.centroid(arcData)})`}
+      // transform={`translate(${lablesOut(arcData)})`}
       dy=".35em"
-      textAnchor="middle"
+      textAnchor='middle'
       fill="black"
       >
       {arcData.data.country}
@@ -77,7 +89,6 @@ const Arc = ({ arcData }) => {
       isOpen={modalIsOpen}
       onRequestClose={closeModal}
       style={modalStyle}
-      contentLabel="Example Modal"
     >
       <h1>{arcData.data.country}</h1>
       <p>Confirmed cases: {arcData.data.confirmed}</p>
@@ -110,7 +121,7 @@ const PieComponent = () => {
 
   const pie = d3.pie().value(d => d.confirmed)
 
-  return <g transform={`translate(300 , 300)`}>
+  return <g transform={`translate(400 , 400)`}>
             {pie(filteredData).map(d => (
               <Arc arcData={d}/>
             ))}
