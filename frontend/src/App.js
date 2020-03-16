@@ -42,6 +42,7 @@ class App extends Component {
           <div className='container'>
             <MapContainer />
             <div className='container'>
+              <h1>Countries data:</h1>
               <Diagram />
             </div>
           </div>
