@@ -1,8 +1,7 @@
 import React, { Fragment, useRef, useEffect, useState } from 'react';
 // import { select, geoPath, geoMercator, min, max, scaleLinear } from "d3";
-import * as d3 from "d3";
+// import * as d3 from "d3";
 // import geoData from "../countries.geo.json";
-
 import PieComponent from '../components/PieComponent'
 
 

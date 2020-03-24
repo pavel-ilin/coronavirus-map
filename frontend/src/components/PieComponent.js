@@ -67,7 +67,6 @@ const Arc = ({ arcData }) => {
       onClick={onClick}
       />
     <text
-      // transform={`translate(${arc.centroid(arcData)})`}
       transform={`${lablesOut(arcData)}`}
       dy=".35em"
       textAnchor='middle'
